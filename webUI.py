@@ -195,6 +195,10 @@ def vc_fn(sid, input_audio, output_format, vc_transform, auto_f0, cluster_ratio,
             raise gr.Error("请上传音频")
         if model is None:
             raise gr.Error("请先加载模型")
+        if f0_predictor == "rmvpe" and not os.path.exists("pretrain/rmvpe.pt"):
+            raise gr.Error("请先下载rmvpe预训练模型")
+        if f0_predictor == "fcpe" and not os.path.exists("pretrain/fcpe.pt"):
+            raise gr.Error("请先下载fcpe预训练模型")
         if getattr(model, 'cluster_model', None) is None and model.feature_retrieval is False:
             cluster_ratio = 0
         os.makedirs(output_folder, exist_ok=True)
